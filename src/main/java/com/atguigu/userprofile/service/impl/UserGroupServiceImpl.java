@@ -117,7 +117,6 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
         String insertUidsSql="insert into user_group select '"+userGroupId+"',"+bitAndSql;
         return insertUidsSql;
     }
-
     //select
     // bitmapAnd(
     //	 bitmapAnd(
@@ -131,21 +130,16 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
     private String getBitAndSql(List<TagCondition> tagConditionList,String taskDate ){
 
         Map<String, TagInfo> tagInfoMapWithCode = tagInfoService.getTagInfoMapWithCode();
-
         String bitsql =null;
-
         for (TagCondition tagCondition : tagConditionList) {
             if(bitsql==null){
                 bitsql = "("+getConditionSQL(tagCondition,taskDate,tagInfoMapWithCode)+")";
             }else{
                 bitsql= " bitmapAnd ( "+bitsql+",("  +getConditionSQL(tagCondition,taskDate,tagInfoMapWithCode)+"))";
             }
-
         }
         return    bitsql;
-
     }
-
 
 //(select  groupBitmapMergeState(us)
 // from user_tag_value_string
@@ -171,7 +165,6 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
         return conditionSQL;
     }
 
-
     //根据 相关条件组合tag_value的判断表达式 如：tag_value in ('70后','80后’)
     //   3   tag_value     ->   参数
     //        加不加单引     ->要查询mysql 中tag_info 中的tag_value_type
@@ -189,9 +182,7 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
                 values="("+values+")";
             }
            String conditionOperator = getConditionOperator(operatorStr);
-
             return  "tag_value "+conditionOperator+" "+ values;
-
     }
 
     //根据英文判断符号转为 sql判断符号
@@ -217,7 +208,6 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
         throw  new RuntimeException("操作符不正确");
     }
 
-
     //根据tagValueType 得到表名
     private String getTableName(String tagValueType){
         String tableNamePrefix="user_tag_value_";
@@ -232,6 +222,5 @@ public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroup
         }else{
             throw new RuntimeException("类型不匹配！！");
         }
-
     }
 }
